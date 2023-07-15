@@ -20,3 +20,20 @@ void GetJacobian(std::vector<std::shared_ptr<autograd::Variable>>& leftside, std
 	}
 
 }
+
+void GetJacobian(EigenTensor& leftside,	EigenTensor& upside, Eigen::MatrixXd& returnmat)
+{
+	int rows = leftside.rows();
+	int cols = upside.rows();
+	std::vector<std::shared_ptr<autograd::Variable>> lft;
+	for (size_t i = 0; i < rows; i++)
+	{
+		lft.push_back(leftside(i,0));
+	}
+	std::vector<std::shared_ptr<autograd::Variable>> upd;
+	for (int  i = 0; i < cols; i++)
+	{
+		upd.push_back(upside(i, 0));
+	}
+	GetJacobian(lft, upd, returnmat);
+}
