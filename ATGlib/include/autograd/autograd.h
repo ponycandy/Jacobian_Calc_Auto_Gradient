@@ -2,7 +2,6 @@
 #define __AUTOGRAD_H__
 
 #include "autograd/variable.h"
-//#include <boost/log/trivial.hpp>
 #include <memory>
 #include <vector>
 

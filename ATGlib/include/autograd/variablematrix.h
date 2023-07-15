@@ -41,9 +41,11 @@ ATtensor operator*(ATtensor& b, ATtensor& a);
 
 ATtensor operator+(ATtensor& b, ATtensor& a);
 
-//常数矩阵的乘法...这个还是有必要的
-
-
+//常数矩阵的运算
+ATtensor operator*(ATtensor& b, Eigen::MatrixXd& a);
+ATtensor operator*(Eigen::MatrixXd& b ,ATtensor& a);
+ATtensor operator+(ATtensor& b, Eigen::MatrixXd& a);
+ATtensor operator+(Eigen::MatrixXd& b, ATtensor& a);
 //debug调试工具
 
 void printTensor(ATtensor& a);

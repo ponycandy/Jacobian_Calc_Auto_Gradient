@@ -161,6 +161,96 @@ ATtensor operator+(ATtensor& b, ATtensor& a)
 	}
 	return newtensor;
 }
+//³£Êý¾ØÕó
+ATtensor operator*(ATtensor& b, Eigen::MatrixXd& a)
+{
+	ATtensor newtensor;
+	int brows = b.rows;
+	int bcols = b.cols;
+	int acols = a.cols();
+	newtensor.resize(b.rows, acols);
+	if (b.cols != a.rows())
+	{
+		throw std::out_of_range("matrix multiplication is not fit");
+	}
+
+	for (int i = 0; i < brows; i++)
+	{
+		for (int j = 0; j < acols; j++)
+		{
+			//newtensor[i][j]=b[i][j] * a[j][i];
+			for (int k = 0; k < bcols; k++)
+			{
+				newtensor[i][j] = newtensor[i][j] + (b[i][k] * a(k,j));
+			}
+		}
+	}
+	return newtensor;
+}
+ATtensor operator*(Eigen::MatrixXd& b, ATtensor& a)
+{
+	ATtensor newtensor;
+	int brows = b.rows();
+	int bcols = b.cols();
+	int acols = a.cols;
+	newtensor.resize(b.rows(), acols);
+	if (b.cols() != a.rows)
+	{
+		throw std::out_of_range("matrix multiplication is not fit");
+	}
+
+	for (int i = 0; i < brows; i++)
+	{
+		for (int j = 0; j < acols; j++)
+		{
+			for (int k = 0; k < bcols; k++)
+			{
+				newtensor[i][j] = newtensor[i][j] + (b(i,k) * a[k][j]);
+			}
+		}
+	}
+	return newtensor;
+}
+ATtensor operator+(ATtensor& b, Eigen::MatrixXd& a)
+{
+	ATtensor newtensor;
+	newtensor.resize(b.rows, a.cols());
+	if ((b.rows != a.rows()) || (b.cols != a.cols()))
+	{
+		throw std::out_of_range("matrix size not same!");
+	}
+	int i = 0;
+	int brows = b.rows;
+	int aclos = a.cols();
+	for (int i = 0; i < brows; i++)
+	{
+		for (int j = 0; j < aclos; j++)
+		{
+			newtensor[i][j] = b[i][j] + a(i,j);
+		}
+	}
+	return newtensor;
+}
+ATtensor operator+(Eigen::MatrixXd& b, ATtensor& a)
+{
+	ATtensor newtensor;
+	newtensor.resize(b.rows(), a.cols);
+	if ((b.rows() != a.rows) || (b.cols() != a.cols))
+	{
+		throw std::out_of_range("matrix size not same!");
+	}
+	int i = 0;
+	int brows = b.rows();
+	int aclos = a.cols;
+	for (int i = 0; i < brows; i++)
+	{
+		for (int j = 0; j < aclos; j++)
+		{
+			newtensor[i][j] = b(i,j) + a[i][j];
+		}
+	}
+	return newtensor;
+}
 
 void printTensor(ATtensor& a)
 {
