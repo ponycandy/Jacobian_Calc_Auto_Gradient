@@ -1,6 +1,6 @@
 #include "autograd/variablematrix.h"
 
-void GetJacobian(std::vector<std::shared_ptr<autograd::Variable>>& leftside, std::vector<std::shared_ptr<autograd::Variable>>& upside, Eigen::MatrixXd& returnmat)
+void GetJacobian(ATGvector& leftside, ATGvector& upside, Eigen::MatrixXd& returnmat)
 {
 	int rows = leftside.size();
 	int cols = upside.size();
@@ -21,7 +21,7 @@ void GetJacobian(std::vector<std::shared_ptr<autograd::Variable>>& leftside, std
 
 }
 
-void GetJacobian(EigenTensor& leftside,	EigenTensor& upside, Eigen::MatrixXd& returnmat)
+void GetJacobian(ATGTensor& leftside, ATGTensor& upside, Eigen::MatrixXd& returnmat)
 {
 	int rows = leftside.rows();
 	int cols = upside.rows();
