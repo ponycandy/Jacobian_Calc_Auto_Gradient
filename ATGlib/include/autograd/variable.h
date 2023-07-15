@@ -48,7 +48,10 @@ public:
 
   Variable(T value) : value_(value) {}
 
-  Variable operator=(T value) { value_ = value; }
+  Variable operator=(T value) { value_ = value; }  //等于常数不传递梯度
+
+  //+=我的定义,无法添加这个运算符，几乎必然会破坏定义
+  //std::shared_ptr<Variable> operator +=(std::shared_ptr<Variable> rhs);
 
   T grad() { return grad_; }
   
@@ -98,6 +101,7 @@ std::shared_ptr<Variable> operator/(std::shared_ptr<Variable> lhs, double const 
 //下面为指数
 std::shared_ptr<Variable> operator^(std::shared_ptr<Variable> lhs, double& const rhs);
 std::shared_ptr<Variable> operator^(double& const lhs, std::shared_ptr<Variable> rhs);
+
 } // namespace autograd
 
 #endif // __TENSOR_H__
