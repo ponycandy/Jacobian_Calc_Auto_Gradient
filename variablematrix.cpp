@@ -256,6 +256,7 @@ void printTensor(ATtensor& a)
 
 void GetJacobian(ATtensor& leftside, ATtensor& upside, Eigen::MatrixXd& returnmat)
 {
+//考虑到如果矩阵已经匹配了尺寸，每次都在内部resize会比较消耗内存，所以总是在外部resize
 	int rows = leftside.totalsize; 
 	int cols = upside.totalsize;
 	int i = 0;
