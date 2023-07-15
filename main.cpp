@@ -4,29 +4,20 @@
 int main()
 
 {
-	Eigen::Matrix<std::shared_ptr<autograd::Variable>, 1, 1> mat;
+	std::shared_ptr<autograd::Variable> xvar = autograd::variable(1);
+	Eigen::Matrix<std::shared_ptr<autograd::Variable>, 2, 1> mat;
 	
-	mat<< autograd::variable(1);
+	mat<< 4*xvar,2*xvar;
 
-	Eigen::Matrix<std::shared_ptr<autograd::Variable>, 1, 1> mat1;
+	std::vector<std::shared_ptr<autograd::Variable>> var {xvar};
+	std::vector<std::shared_ptr<autograd::Variable>> value {mat(0,0),mat(1,0)};
 
-	mat1 << autograd::variable(2);
+	Eigen::MatrixXd jac;
+	jac.resize(2, 1);
+	GetJacobian(value, var,jac);
 
-	mat = mat + mat1;
+	std::cout << jac << std::endl;
 
-	std::cout << mat(0, 0)->value_ << std::endl;
-	mat = mat * mat1;
-	std::cout << mat(0, 0)->value_ << std::endl;
-	double aty = 3;
-	std::shared_ptr<autograd::Variable> varterminal=mat(0,0)+6;
-	//必须转化为常量输入?
-	//autograd::run_backward((*varterminal));
-	mat = 3 *mat;
-	//mat = 3.0 * mat ;
-	std::cout << mat(0, 0)->value_ << std::endl;
-
-	autograd::run_backward((*mat(0, 0)));
-	std::cout << mat1(0, 0)->grad_ << std::endl;
 	return 0;
 }
 //#include <iostream>
