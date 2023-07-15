@@ -70,6 +70,30 @@ public:
 	double other_;  //总是将常数值赋给others
 	std::shared_ptr<Variable> self_;
 };
+class DivBackwardConstant : public Node {
+public:
+	variable_list apply(variable_list&& grads) override;
+	double other_;
+	std::shared_ptr<Variable> self_;
+};
+class DivBackwardConstant_R : public Node {
+public:
+	variable_list apply(variable_list&& grads) override;
+	double other_;
+	std::shared_ptr<Variable> self_;
+};
+class PowBackwardConstant : public Node {
+public:
+	variable_list apply(variable_list&& grads) override;
+	double other_;
+	std::shared_ptr<Variable> self_;
+};
+class PowBackwardConstant_R : public Node {
+public:
+	variable_list apply(variable_list&& grads) override;
+	double other_;
+	std::shared_ptr<Variable> self_;
+};
 } // namespace autograd
 
 #endif // __OPERATORS_H__

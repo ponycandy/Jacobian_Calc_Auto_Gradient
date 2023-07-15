@@ -83,5 +83,26 @@ variable_list MulBackwardConstant::apply(variable_list&& grads) {
     variable_list grads_input{ other_* grad};
     return grads_input;
 }
+variable_list DivBackwardConstant::apply(variable_list&& grads) {
+    auto grad = grads[0].value_;
+    variable_list grads_input{ -other_ /(self_->value_* self_->value_)* grad };
+    return grads_input;
+}
+variable_list DivBackwardConstant_R::apply(variable_list&& grads) {
+    auto grad = grads[0].value_;
+    variable_list grads_input{ 1/other_ * grad };
+    return grads_input;
+}
+variable_list PowBackwardConstant::apply(variable_list&& grads) {
+    auto grad = grads[0].value_;
+    variable_list grads_input{ grad *  std::pow(other_,self_->value_)*std::log(other_)};
+    return grads_input;
+}
+
+variable_list PowBackwardConstant_R::apply(variable_list&& grads) {
+    auto grad = grads[0].value_;
+    variable_list grads_input{ grad * other_* std::pow(self_->value_,other_-1) };
+    return grads_input;
+}
 
 } // namespace autograd

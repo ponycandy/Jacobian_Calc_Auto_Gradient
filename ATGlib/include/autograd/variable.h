@@ -85,13 +85,19 @@ std::shared_ptr<Variable> operator/(std::shared_ptr<Variable> lhs,
 std::shared_ptr<Variable> operator^(std::shared_ptr<Variable> lhs,
                                     std::shared_ptr<Variable> rhs);
 //以下是我的定义
-std::shared_ptr<Variable> operator+(std::shared_ptr<Variable> lhs, double rhs);
-std::shared_ptr<Variable> operator+(double lhs,std::shared_ptr<Variable> rhs);
-std::shared_ptr<Variable> operator-(std::shared_ptr<Variable> lhs, double rhs);
-std::shared_ptr<Variable> operator-(double lhs, std::shared_ptr<Variable> rhs);
+std::shared_ptr<Variable> operator+(std::shared_ptr<Variable> lhs, double const &rhs);
+std::shared_ptr<Variable> operator+(double const &lhs,std::shared_ptr<Variable> rhs);
+std::shared_ptr<Variable> operator-(std::shared_ptr<Variable> lhs, double const &rhs);
+std::shared_ptr<Variable> operator-(double const &lhs, std::shared_ptr<Variable> rhs);
 //下面为数乘
-std::shared_ptr<Variable> operator*(double lhs,std::shared_ptr<Variable> rhs);
-std::shared_ptr<Variable> operator*(std::shared_ptr<Variable> lhs, double rhs);
+std::shared_ptr<Variable> operator*(double const &lhs,std::shared_ptr<Variable> rhs);
+std::shared_ptr<Variable> operator*(std::shared_ptr<Variable> lhs, double const&rhs);
+//下面为数除
+std::shared_ptr<Variable> operator/(double const &lhs, std::shared_ptr<Variable> rhs);
+std::shared_ptr<Variable> operator/(std::shared_ptr<Variable> lhs, double const &rhs);
+//下面为指数
+std::shared_ptr<Variable> operator^(std::shared_ptr<Variable> lhs, double& const rhs);
+std::shared_ptr<Variable> operator^(double& const lhs, std::shared_ptr<Variable> rhs);
 } // namespace autograd
 
 #endif // __TENSOR_H__
