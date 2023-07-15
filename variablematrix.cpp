@@ -1,43 +1,6 @@
 #include "autograd/variablematrix.h"
 #include <iostream>
 
-//void GetJacobian(ATGvector& leftside, ATGvector& upside, Eigen::MatrixXd& returnmat)
-//{
-//	int rows = leftside.size();
-//	int cols = upside.size();
-//	int i = 0;
-//	int j = 0;
-//	for (auto x : leftside)
-//	{
-//		autograd::run_backward(*x);
-//		for (auto y : upside)
-//		{
-//			returnmat(i, j) = y->grad_;
-//			y->grad_ = 0;
-//			j++;
-//		}
-//		j = 0;
-//		i++;
-//	}
-//
-//}
-//
-//void GetJacobian(ATGTensor& leftside, ATGTensor& upside, Eigen::MatrixXd& returnmat)
-//{
-//	int rows = leftside.rows();
-//	int cols = upside.rows();
-//	ATGvector lft;
-//	for (size_t i = 0; i < rows; i++)
-//	{
-//		lft.push_back(leftside(i,0));
-//	}
-//	ATGvector upd;
-//	for (int  i = 0; i < cols; i++)
-//	{
-//		upd.push_back(upside(i, 0));
-//	}
-//	GetJacobian(lft, upd, returnmat);
-//}
 
 ATtensor::ATtensor()
 {
@@ -45,7 +8,7 @@ ATtensor::ATtensor()
 
 ATtensor::~ATtensor()
 {
-	//delete[] data;
+
 }
 
 void ATtensor::resize(int nrows, int ncols)
@@ -289,4 +252,24 @@ void printTensor(ATtensor& a)
 		loginfo1.append(" \n");
 	}
 	std::cout << loginfo1 << std::endl;
+}
+
+void GetJacobian(ATtensor& leftside, ATtensor& upside, Eigen::MatrixXd& returnmat)
+{
+	int rows = leftside.totalsize; 
+	int cols = upside.totalsize;
+	int i = 0;
+	int j = 0;
+	for (auto x : leftside.data)
+	{
+		autograd::run_backward(*x);
+		for (auto y : upside.data)
+		{
+			returnmat(i, j) = y->grad_;
+			y->grad_ = 0;
+			j++;
+		}
+		j = 0;
+		i++;
+	}
 }

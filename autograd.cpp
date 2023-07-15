@@ -29,62 +29,6 @@ struct NodeTask {
   variable_list variables;
 };
 
-void print_graph(Variable &root) {
-  std::unordered_map<std::shared_ptr<Node>, bool> visited;
-  std::queue<std::shared_ptr<Node>> queue;
-  std::unordered_map<std::shared_ptr<Node>, std::string> node_names;
-  std::unordered_map<std::shared_ptr<Node>, std::vector<std::string>>
-      neighbours;
-
-  auto get_node_name = [&](std::shared_ptr<Node> n) {
-    auto it = node_names.find(n);
-    if (it != node_names.end()) {
-      return it->second;
-    }
-#ifdef __GNUC__
-    char *buf =
-        __cxxabiv1::__cxa_demangle(n->name(), nullptr, nullptr, nullptr);
-#else
-    char* buf = GetTypeName(n->name());
-#endif
-    std::string&& name = fmt::format("{}_{}", buf + 10, fmt::ptr(n));
-    free(buf);
-    return node_names[n] = std::move(name);
-  };
-
-  queue.push(root.gradient_edge().grad_fn());
-  while (!queue.empty()) {
-    auto node = queue.front();
-    queue.pop();
-    if (!node) {
-      continue;
-    }
-
-    (void)get_node_name(node);
-
-    for (int i = 0; i < node->next_edges(); ++i) {
-      auto edge = node->next_edge(i);
-      auto grad_fn = edge.grad_fn();
-      if (grad_fn) {
-        neighbours[node].push_back(get_node_name(grad_fn));
-        if (!visited[grad_fn]) {
-          visited[grad_fn] = true;
-          queue.push(grad_fn);
-        }
-      }
-    }
-  }
-  std::cout << "digraph {" << std::endl << std::endl;
-  for (auto &[p, s] : node_names) {
-    std::cout << "  " << s << std::endl;
-  }
-  std::cout << std::endl;
-  for (auto &[p, ns] : neighbours) {
-    fmt::print("  {} -> {{{}}}\n", get_node_name(p),
-               join(ns, " "));
-  }
-  std::cout << std::endl << "}" << std::endl;
-}
 
 void compute_dependencies(
     Variable &root,

@@ -2,12 +2,10 @@
 #define __VARIABLEMATRIX_H
 #include "Eigen/core"
 #include "autograd/autograd.h"
-//typedef Eigen::Matrix<std::shared_ptr<autograd::Variable>, Eigen::Dynamic, Eigen::Dynamic> ATGTensor;
-//typedef std::vector<std::shared_ptr<autograd::Variable>> ATGvector;
 
 
-//void GetJacobian(ATGvector& leftside, ATGvector& upside, Eigen::MatrixXd& returnmat);
-//void GetJacobian(ATGTensor& leftside, ATGTensor& upside, Eigen::MatrixXd& returnmat);
+
+
 typedef std::shared_ptr<autograd::Variable> Atvariable_Ptr;
 typedef autograd::Variable Atvariable;
 
@@ -49,5 +47,9 @@ ATtensor operator+(Eigen::MatrixXd& b, ATtensor& a);
 //debug调试工具
 
 void printTensor(ATtensor& a);
+
+//雅可比求解
+void GetJacobian(ATtensor& leftside, ATtensor& upside, Eigen::MatrixXd& returnmat);
+//void GetJacobian(ATGTensor& leftside, ATGTensor& upside, Eigen::MatrixXd& returnmat);
 
 #endif 

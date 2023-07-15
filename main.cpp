@@ -71,4 +71,17 @@ int main()
 	autograd::run_backward(*m_tensor[1][1]);
 	printTensor(m_tensor);
 	printTensor(tensorl);
+	std::cout << "jacobtest" << std::endl;
+	ATtensor tensorx;
+	tensorx.resize(1, 2);
+	tensorx.setvalue(1);
+	
+	ATtensor tensory;
+	tensory.resize(1, 2);
+	tensory = -3 * tensorx;
+	Eigen::MatrixXd mat1;
+	mat1.resize(2, 2);
+	GetJacobian(tensory, tensorx, mat1);
+	std::cout << mat1 << std::endl;
+
 }

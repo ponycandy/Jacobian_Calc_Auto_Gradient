@@ -30,7 +30,6 @@ public:
 };
 
 void run_backward(Variable &root);
-void print_graph(Variable &root);
 
 } // namespace autograd
 

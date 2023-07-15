@@ -1,8 +1,7 @@
 #if !defined(__TENSOR_H__)
 #define __TENSOR_H__
 
-//#include <boost/log/trivial.hpp>
-#include <fmt/format.h>
+
 #include <memory>
 
 namespace autograd {
@@ -63,10 +62,6 @@ public:
 
   void set_requires_grad(bool requires_grad) { requires_grad_ = requires_grad; }
 
-  std::string to_string() const {
-    return fmt::format("Variable @ {} value = {} grad = {}", fmt::ptr(this),
-                       value_, grad_);
-  }
 
   std::shared_ptr<Variable> detach();
   std::shared_ptr<Variable> log();
