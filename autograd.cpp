@@ -1,7 +1,7 @@
 
 
 
-//当编译器非gcc时,不包含cxxabi.h头文件
+//When the compiler is non-GCC, the cxxabi.h header file is not included
 #ifdef __GNUC__
 #include <cxxabi.h>
 

@@ -127,7 +127,7 @@ std::shared_ptr<Variable> operator-(std::shared_ptr<Variable> var) {
   return result;
 }
 
-//以下是我的定义：
+//my defination down here：
 std::shared_ptr<Variable> operator+(std::shared_ptr<Variable> lhs, double const &rhs)
 {
     std::shared_ptr<AddBackwardConstant> grad_fn = std::make_shared<AddBackwardConstant>();
@@ -151,7 +151,7 @@ std::shared_ptr<Variable> operator-(std::shared_ptr<Variable> lhs, double const 
     std::shared_ptr<AddBackwardConstant> grad_fn = std::make_shared<AddBackwardConstant>();
     grad_fn->add_input_nr();
     auto result = std::make_shared<Variable>(lhs->value_ - rhs);
-    result->set_gradient_edge({ grad_fn, 0 });//这里暂时没有搞明白原理
+    result->set_gradient_edge({ grad_fn, 0 });
     grad_fn->add_next_edge(lhs->gradient_edge());
     return result;
 }
@@ -166,7 +166,8 @@ std::shared_ptr<Variable> operator-(double const &lhs, std::shared_ptr<Variable>
 }
 std::shared_ptr<Variable> operator*(double const &lhs, std::shared_ptr<Variable> rhs)
 {
-    std::shared_ptr<MulBackwardConstant> grad_fn = std::make_shared<MulBackwardConstant>();//MulBackward中存了值用来反向传播
+    std::shared_ptr<MulBackwardConstant> grad_fn = std::make_shared<MulBackwardConstant>();
+    //BP value is stored in MulBackwardConstant
     grad_fn->self_ = rhs;
     grad_fn->other_ = lhs;
     grad_fn->add_input_nr();

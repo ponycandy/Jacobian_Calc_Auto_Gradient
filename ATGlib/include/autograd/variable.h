@@ -47,9 +47,9 @@ public:
 
   Variable(T value) : value_(value) {}
 
-  Variable operator=(T value) { value_ = value; }  //等于常数不传递梯度
+  Variable operator=(T value) { value_ = value; }  //Not going to transfer the gradient
 
-  //+=我的定义,无法添加这个运算符，几乎必然会破坏定义
+  //+=can not be added, because the gradient graph will be destroyed
   //std::shared_ptr<Variable> operator +=(std::shared_ptr<Variable> rhs);
 
   T grad() { return grad_; }
@@ -82,20 +82,20 @@ std::shared_ptr<Variable> operator/(std::shared_ptr<Variable> lhs,
                                     std::shared_ptr<Variable> rhs);
 std::shared_ptr<Variable> operator^(std::shared_ptr<Variable> lhs,
                                     std::shared_ptr<Variable> rhs);
-//以下是我的定义
+//my defination down here
 std::shared_ptr<Variable> operator+(std::shared_ptr<Variable> lhs, double const &rhs);
 std::shared_ptr<Variable> operator+(double const &lhs,std::shared_ptr<Variable> rhs);
 std::shared_ptr<Variable> operator-(std::shared_ptr<Variable> lhs, double const &rhs);
 std::shared_ptr<Variable> operator-(double const &lhs, std::shared_ptr<Variable> rhs);
-//下面为数乘
+//constant mul
 std::shared_ptr<Variable> operator*(double const &lhs,std::shared_ptr<Variable> rhs);
 std::shared_ptr<Variable> operator*(std::shared_ptr<Variable> lhs, double const&rhs);
-//下面为数除
+//constant divide
 std::shared_ptr<Variable> operator/(double const &lhs, std::shared_ptr<Variable> rhs);
 std::shared_ptr<Variable> operator/(std::shared_ptr<Variable> lhs, double const &rhs);
-//下面为指数
-std::shared_ptr<Variable> operator^(std::shared_ptr<Variable> lhs, double& const rhs);
-std::shared_ptr<Variable> operator^(double& const lhs, std::shared_ptr<Variable> rhs);
+//exponatial
+std::shared_ptr<Variable> operator^(std::shared_ptr<Variable> lhs, double const &rhs);
+std::shared_ptr<Variable> operator^(double const &lhs, std::shared_ptr<Variable> rhs);
 
 } // namespace autograd
 

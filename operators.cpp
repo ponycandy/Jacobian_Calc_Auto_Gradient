@@ -66,17 +66,17 @@ variable_list NegBackward::apply(variable_list &&grads) {
   variable_list grads_input{-grad};
   return grads_input;
 }
-//以下为我的添加：
+//my defination down here：
 variable_list AddBackwardConstant::apply(variable_list&& grads) {
     auto grad = grads[0].value_;  
-    //这一项是指求导图到目前为止所积累的导数值，所以输出应该是本节点导数乘以这个值
+    //This term refers to the accumulated derivative of the graph so far, 
+    // so the output should be the derivative of this node times this value
     //上面的NegBackward就是一个例子
     variable_list grads_input{ grad };
-    //有几项variable变量参与这个运算,grads_input就有几项，对应顺序没有关系，系统会遍历每个variable的梯度
-    // 左操作数和右操作数哪个在前无所谓
-    //定义对自己的导数：按照本符号定义的输入顺序，处在第一个位置上的变量就是自己
+    //There are several variables involved in this operation,grads_input has several, 
+    // the order does not matter, the system will traverse the gradient of each variable
+    // It doesn't matter which of the left and right operands comes first
     return grads_input;
-    //这个应该可以通用给左+和右+常数
 }
 variable_list MulBackwardConstant::apply(variable_list&& grads) {
     auto grad = grads[0].value_;

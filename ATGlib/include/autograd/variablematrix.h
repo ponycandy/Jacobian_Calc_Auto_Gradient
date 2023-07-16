@@ -25,7 +25,7 @@ public:
 };
 
 
-//一些重要的符号重载
+//Some important symbol overloading
 
 ATtensor operator*(ATtensor& a, double b);
 
@@ -39,16 +39,16 @@ ATtensor operator*(ATtensor& b, ATtensor& a);
 
 ATtensor operator+(ATtensor& b, ATtensor& a);
 
-//常数矩阵的运算
+//Operation of constant matrix
 ATtensor operator*(ATtensor& b, Eigen::MatrixXd& a);
 ATtensor operator*(Eigen::MatrixXd& b ,ATtensor& a);
 ATtensor operator+(ATtensor& b, Eigen::MatrixXd& a);
 ATtensor operator+(Eigen::MatrixXd& b, ATtensor& a);
-//debug调试工具
+//debugging tool
 
 void printTensor(ATtensor& a);
 
-//雅可比求解
+//Jacobi solution
 void GetJacobian(ATtensor& leftside, ATtensor& upside, Eigen::MatrixXd& returnmat);
 //void GetJacobian(ATGTensor& leftside, ATGTensor& upside, Eigen::MatrixXd& returnmat);
 
