@@ -14,6 +14,7 @@ class ATtensor
 public:
 	ATtensor();
 	~ATtensor();
+	ATtensor Transpose();
 	void resize(int nrows, int ncols);
 	void setvalue(double value);
 	int rows;

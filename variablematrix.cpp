@@ -11,6 +11,15 @@ ATtensor::~ATtensor()
 
 }
 
+ATtensor ATtensor::Transpose()
+{
+	ATtensor newtensor;
+	newtensor.cols = rows;
+	newtensor.rows = cols;
+	newtensor.data = data;
+	return newtensor;
+}
+
 void ATtensor::resize(int nrows, int ncols)
 {
 	rows = nrows;

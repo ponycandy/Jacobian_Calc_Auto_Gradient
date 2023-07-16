@@ -7,9 +7,12 @@ int main()
 
 {
 	ATtensor tensor_a;
-	tensor_a.resize(1, 1);
+	tensor_a.resize(1, 2);
+	tensor_a.setvalue(1);
 	ATtensor tensor_b=tensor_a;
-	ATtensor tensor_c = tensor_a;
-	ATtensor tensord = tensor_a + tensor_b + tensor_c;
-	printTensor(tensord);
+	ATtensor tensor_c = 4 * tensor_a.Transpose();
+	//Transpose会把梯度传到原张量
+	Eigen::MatrixXd mat(2, 2);
+	GetJacobian(tensor_c, tensor_a, mat);
+	std::cout << mat << std::endl;
 }
