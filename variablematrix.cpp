@@ -41,7 +41,17 @@ Atvariable_Ptr* ATtensor::operator[](int i)
     return data.data() + i * cols;
 }
 
-ATtensor operator*( ATtensor& a, double b)
+const Atvariable_Ptr* ATtensor::operator[](int i) const
+{
+	// check if the index is valid
+	if (i < 0 || i >= rows) {
+		throw std::out_of_range("Invalid row index");
+	}
+	// return the pointer to the row
+	return data.data() + i * cols;
+}
+
+ATtensor operator*(const ATtensor& a, const double b)
 {
 	ATtensor newtensor;
 	newtensor.resize(a.rows, a.cols);
@@ -53,7 +63,7 @@ ATtensor operator*( ATtensor& a, double b)
 	}
     return newtensor;
 }
-ATtensor operator*(double b,  ATtensor& a)
+ATtensor operator*(const double b, const ATtensor& a)
 {
 	ATtensor newtensor;
 	newtensor.resize(a.rows, a.cols);
@@ -65,7 +75,7 @@ ATtensor operator*(double b,  ATtensor& a)
 	}
 	return newtensor;
 }
-ATtensor operator/(ATtensor& a, double b)
+ATtensor operator/(const ATtensor& a, const double b)
 {
 	ATtensor newtensor;
 	newtensor.resize(a.rows, a.cols);
@@ -78,7 +88,7 @@ ATtensor operator/(ATtensor& a, double b)
 	return newtensor;
 }
 //张量积
-ATtensor operator*( ATtensor& b,  ATtensor& a)
+ATtensor operator*(const ATtensor& b, const  ATtensor& a)
 {
 	ATtensor newtensor;
 	newtensor.resize(b.rows, a.cols);
@@ -104,7 +114,7 @@ ATtensor operator*( ATtensor& b,  ATtensor& a)
 }
 
 //张量和
-ATtensor operator+(ATtensor& b, ATtensor& a)
+ATtensor operator+(const ATtensor& b, const ATtensor& a)
 {
 	ATtensor newtensor;
 	newtensor.resize(b.rows, a.cols);
@@ -125,7 +135,7 @@ ATtensor operator+(ATtensor& b, ATtensor& a)
 	return newtensor;
 }
 //常数矩阵
-ATtensor operator*(ATtensor& b, Eigen::MatrixXd& a)
+ATtensor operator*(const ATtensor& b, const Eigen::MatrixXd& a)
 {
 	ATtensor newtensor;
 	int brows = b.rows;
@@ -150,7 +160,7 @@ ATtensor operator*(ATtensor& b, Eigen::MatrixXd& a)
 	}
 	return newtensor;
 }
-ATtensor operator*(Eigen::MatrixXd& b, ATtensor& a)
+ATtensor operator*(const Eigen::MatrixXd& b, const ATtensor& a)
 {
 	ATtensor newtensor;
 	int brows = b.rows();
@@ -174,7 +184,7 @@ ATtensor operator*(Eigen::MatrixXd& b, ATtensor& a)
 	}
 	return newtensor;
 }
-ATtensor operator+(ATtensor& b, Eigen::MatrixXd& a)
+ATtensor operator+(const ATtensor& b, const Eigen::MatrixXd& a)
 {
 	ATtensor newtensor;
 	newtensor.resize(b.rows, a.cols());
@@ -194,7 +204,7 @@ ATtensor operator+(ATtensor& b, Eigen::MatrixXd& a)
 	}
 	return newtensor;
 }
-ATtensor operator+(Eigen::MatrixXd& b, ATtensor& a)
+ATtensor operator+(const Eigen::MatrixXd& b, const ATtensor& a)
 {
 	ATtensor newtensor;
 	newtensor.resize(b.rows(), a.cols);
