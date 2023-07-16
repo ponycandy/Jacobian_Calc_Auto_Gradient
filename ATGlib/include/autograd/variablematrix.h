@@ -15,6 +15,7 @@ public:
 	ATtensor();
 	~ATtensor();
 	ATtensor Transpose();
+	Eigen::MatrixXd toMat();
 	void resize(int nrows, int ncols);
 	void setvalue(double value);
 	int rows;
@@ -51,7 +52,9 @@ ATtensor operator+(const Eigen::MatrixXd& b, const ATtensor& a);
 void printTensor(ATtensor& a);
 
 //Jacobi solution
-void GetJacobian(ATtensor& leftside, ATtensor& upside, Eigen::MatrixXd& returnmat);
+namespace autograd {
+	void GetJacobian(ATtensor& leftside, ATtensor& upside, Eigen::MatrixXd& returnmat);
+}
 //void GetJacobian(ATGTensor& leftside, ATGTensor& upside, Eigen::MatrixXd& returnmat);
 
 #endif 

@@ -20,6 +20,19 @@ ATtensor ATtensor::Transpose()
 	return newtensor;
 }
 
+Eigen::MatrixXd ATtensor::toMat()
+{
+	std::vector<double> param;
+	for (auto x : data)
+	{
+		param.push_back(x->value_);
+	}
+	double* v = &param[0]; // get a pointer to the first element of the vector
+	Eigen::Map<Eigen::MatrixXd> matrix(v, rows, cols); // map the vector to a matrix with n rows and 1 column
+
+	return matrix;
+}
+ 
 void ATtensor::resize(int nrows, int ncols)
 {
 	rows = nrows;
@@ -272,24 +285,24 @@ void printTensor(ATtensor& a)
 	}
 	std::cout << loginfo1 << std::endl;
 }
-
-void GetJacobian(ATtensor& leftside, ATtensor& upside, Eigen::MatrixXd& returnmat)
-{
-//考虑到如果矩阵已经匹配了尺寸，每次都在内部resize会比较消耗内存，所以总是在外部resize
-	int rows = leftside.totalsize; 
-	int cols = upside.totalsize;
-	int i = 0;
-	int j = 0;
-	for (auto x : leftside.data)
+namespace autograd {
+	void GetJacobian(ATtensor& leftside, ATtensor& upside, Eigen::MatrixXd& returnmat)
 	{
-		autograd::run_backward(*x);
-		for (auto y : upside.data)
+		int rows = leftside.totalsize;
+		int cols = upside.totalsize;
+		int i = 0;
+		int j = 0;
+		for (auto x : leftside.data)
 		{
-			returnmat(i, j) = y->grad_;
-			y->grad_ = 0;
-			j++;
+			autograd::run_backward(*x);
+			for (auto y : upside.data)
+			{
+				returnmat(i, j) = y->grad_;
+				y->grad_ = 0;
+				j++;
+			}
+			j = 0;
+			i++;
 		}
-		j = 0;
-		i++;
 	}
 }
